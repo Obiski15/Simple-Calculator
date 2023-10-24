@@ -1,4 +1,4 @@
-A nice and simple calculator that supports both on screen keyboard clicks
+A nice and simple calculator that supports both on screen and keyboard clicks
 
 Preview
 
