@@ -1,0 +1,63 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: black;
+}
+
+main {
+  border: 3px solid white;
+  background-color: wite;
+  min-width: 300px;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 5px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.button {
+  border: 2px solid black;
+  color: white;
+  font-weight: bold;
+}
+
+.clear {
+  color: red;
+}
+
+#input {
+  background: none;
+  outline: none;
+  border: none;
+  background-color: white;
+  grid-column: 1 / -1;
+}
+
+.button,
+#input {
+  padding: 20px;
+  font-size: 1.5em;
+}
+
+.digit {
+  background-color: grey;
+}
+
+.operation,
+.submit {
+  background-color: blue;
+}
+
+.submit {
+  grid-column: 3/ -1;
+  border: 3px solid grey;
+}
