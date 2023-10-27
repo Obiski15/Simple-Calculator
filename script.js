@@ -1,52 +1,65 @@
+"use strict";
+
 let main = document.querySelector("main");
 let buttons = document.querySelectorAll(".button");
 let input = document.querySelector("input");
 let clear = document.querySelector(".clear");
 let submit = document.querySelector(".submit");
+let error = document.querySelector(".error");
 
-main.addEventListener("click", (e) => {
-  let target = e.target.closest(".button");
-
-  if (target) {
-    if (
-      target.innerHTML === "=" ||
-      target.innerHTML === "C" ||
-      target.innerHTML === "()"
-    )
-      return;
-    input.value += target.innerHTML;
+class App {
+  #keys = [];
+  constructor() {
+    main.addEventListener("click", this.#displayValue.bind(this));
+    clear.addEventListener("click", this.#clearInput.bind(this));
+    submit.addEventListener("click", this.#calAnswer);
+    document.addEventListener("keydown", this.#assignKeys.bind(this));
   }
-});
 
-function calAnswer() {
-  try {
-    if (input.value === "") return;
-    let answer = eval(input.value);
-    input.value = answer;
-  } catch (error) {
-    console.log(error);
-    alert("Wrong request: Check values and try again");
+  #displayValue(e) {
+    let target = e.target.closest(".button");
+
+    if (target) {
+      if (
+        target.innerHTML === "=" ||
+        target.innerHTML === "C" ||
+        target.innerHTML === "()"
+      )
+        return;
+      input.value += target.innerHTML;
+    }
+  }
+
+  #calAnswer() {
+    try {
+      let answer = eval(input.value);
+      if (input.value === "") return;
+      input.value = answer;
+    } catch (err) {
+      error.innerHTML = "Wrong request: Check values and try again";
+      error.style.color = "red";
+
+      setTimeout(() => {
+        error.innerHTML = "";
+      }, 1000);
+    }
+  }
+
+  #clearInput() {
+    input.value = "";
+  }
+
+  #assignKeys(e) {
+    buttons.forEach((key) => {
+      this.#keys.push(key.innerHTML);
+    });
+    if (e.key === "C" || e.key === "()") return;
+    else if (e.key === "=" || e.key === "Enter") {
+      this.#calAnswer();
+    } else if (this.#keys.includes(e.key)) {
+      input.value += e.key;
+    } else return;
   }
 }
 
-let keys = [];
-buttons.forEach((key) => {
-  keys.push(key.innerHTML);
-});
-
-// EVENT LISTENERS
-
-clear.addEventListener("click", () => {
-  input.value = "";
-});
-
-submit.addEventListener("click", calAnswer);
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "C" || e.key === "()") return;
-  else if (e.key === "=" || e.key === "Enter") {
-    calAnswer();
-  } else if (keys.includes(e.key)) {
-    input.value += e.key;
-  } else return;
-});
+const app = new App();
